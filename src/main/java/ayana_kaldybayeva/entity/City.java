@@ -8,16 +8,16 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long cityId;
+    private Long city_id;
     private String name;
-    private String indexCode;
+    private String index;
 
     public Long getCityId() {
-        return cityId;
+        return city_id;
     }
 
-    public void setCityId(Long cityId) {
-        this.cityId = cityId;
+    public void setCityId(Long city_id) {
+        this.city_id = city_id;
     }
 
     public String getName() {
@@ -28,11 +28,11 @@ public class City {
         this.name = name;
     }
 
-    public String getIndexCode() {
-        return indexCode;
+    public String getIndex() {
+        return index;
     }
 
-    public void setIndexCode(String indexCode) {
-        this.indexCode = indexCode;
+    public void setIndexCode(String index) {
+        this.index = index;
     }
 }
