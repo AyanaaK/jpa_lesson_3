@@ -8,7 +8,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.Scanner;
 
 public class FindUser {
-    public static void main(String[] args) {
+    public static void find() {
         EntityManagerFactory factory = EntityManagerFactoryHolder.factory();
         EntityManager manager = factory.createEntityManager();
 
