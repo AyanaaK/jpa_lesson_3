@@ -1,7 +1,9 @@
+drop table if exists city, users;
+
 create table city (
                       city_id serial8,
                       name varchar(30) not null,
-                      index int8 not null,
+                      index varchar(30) not null,
                       primary key (city_id)
 );
 
