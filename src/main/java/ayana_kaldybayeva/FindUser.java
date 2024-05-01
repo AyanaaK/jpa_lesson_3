@@ -5,6 +5,8 @@ import ayana_kaldybayeva.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class FindUser {
@@ -32,11 +34,16 @@ public class FindUser {
                 System.out.println("Желаете поменять данные? да/нет");
                 String answer = scanner.nextLine();
 
-                if (answer.equals("да")){
+                if (answer.equalsIgnoreCase("да")){
                     manager.getTransaction().begin();
 
                     System.out.println("Введите новое имя:");
                     String newName = scanner.nextLine();
+
+                    while (!newName.matches("[a-zA-Z]+") || newName.isEmpty()){
+                        System.out.println("Введите правильное имя");
+                        newName = scanner.nextLine();
+                    }
 
                     System.out.println("Выберите новый город:");
                     TypedQuery<City> cityTypedQuery2 =manager.createQuery(
@@ -45,13 +52,29 @@ public class FindUser {
                     for (int i = 0; i < cityTypedQuery2.getResultList().size(); i++){
                         System.out.println(i + 1 + ". " + cityTypedQuery2.getResultList().get(i).getName());
                     }
-                    int cityNumber = Integer.parseInt(scanner.nextLine());
-                    City chosenCity = cityTypedQuery2.getResultList().get(cityNumber - 1);
 
-                    user.setName(newName);
-                    user.setCity(chosenCity);
-                    manager.persist(user);
-                    System.out.println("Данные обновлены");
+                    boolean city = false;
+                    List<City> cities = cityTypedQuery2.getResultList();
+
+                    while (!city) {
+                        System.out.println("Выберите номер города");
+                        int cityNumber;
+
+                        try{
+                            cityNumber = Integer.parseInt(scanner.nextLine());
+                        } catch (NumberFormatException e){
+                            System.out.println("Введите правильный номер города");
+                            continue;
+                        }
+
+                        if (cityNumber < 1 || cityNumber > cities.size()) {
+                            System.out.println("Вы ввели неверный номер. Попробуйте еще раз");
+                        } else {
+                            City chosenCity = cities.get(cityNumber - 1);
+                            user.setCity(chosenCity);
+                            city = true;
+                        }
+                    }
 
                     manager.getTransaction().commit();
                 } else {

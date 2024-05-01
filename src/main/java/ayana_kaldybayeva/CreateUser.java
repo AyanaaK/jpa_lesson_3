@@ -31,13 +31,13 @@ public class CreateUser {
                 System.out.println("Введите логин");
                 String loginOfTheNewUser = scanner.nextLine();
 
-                TypedQuery<User> query = manager.createQuery(
-                        "select u from User u where u.login = ?1", User.class
+                TypedQuery<Long> query = manager.createQuery(
+                        "select count(u.id) from User u where u.login = ?1", Long.class
                 );
                 query.setParameter(1, loginOfTheNewUser);
-                List<User> userList = query.getResultList();
+                Long singleResult = query.getSingleResult();
 
-                if (!userList.isEmpty()) {
+                if (singleResult != 0L) {
                     System.out.println("Такой пользователь уже есть");
                 } else {
                     uniqueLogin = true;
@@ -47,6 +47,11 @@ public class CreateUser {
                     System.out.println("Введите имя");
                     String name = scanner.nextLine();
 
+                    while (!name.matches("[a-zA-Z]+") || name.isEmpty()){
+                        System.out.println("Введите правильное имя");
+                        name = scanner.nextLine();
+                    }
+
                     TypedQuery<City> cityTypedQuery =manager.createQuery(
                             "select c from City c", City.class
                     );
@@ -55,12 +60,30 @@ public class CreateUser {
                     for (int i = 0; i < cityTypedQuery.getResultList().size(); i++){
                         System.out.println(i + 1 + ". " + cityTypedQuery.getResultList().get(i).getName());
                     }
-                    System.out.println("Выберите номер города");
-                    int cityNumber = Integer.parseInt(scanner.nextLine());
-                    City chosenCity = cityTypedQuery.getResultList().get(cityNumber - 1);
+                    boolean city = false;
+                    List<City> cities = cityTypedQuery.getResultList();
+
+                    while (!city) {
+                        System.out.println("Выберите номер города");
+                        int cityNumber;
+
+                        try{
+                            cityNumber = Integer.parseInt(scanner.nextLine());
+                        } catch (NumberFormatException e){
+                            System.out.println("Введите правильный номер города");
+                            continue;
+                        }
+
+                        if (cityNumber < 1 || cityNumber > cities.size()) {
+                            System.out.println("Вы ввели неверный номер. Попробуйте еще раз");
+                        } else {
+                            City chosenCity = cities.get(cityNumber - 1);
+                            user.setCity(chosenCity);
+                            city = true;
+                        }
+                    }
 
                     user.setName(name);
-                    user.setCity(chosenCity);
                     manager.persist(user);
 
                     System.out.println("Пользователь создан");
