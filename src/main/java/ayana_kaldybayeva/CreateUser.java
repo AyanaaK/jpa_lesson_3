@@ -47,17 +47,17 @@ public class CreateUser {
                     System.out.println("Введите имя");
                     String name = scanner.nextLine();
 
-                    while (!name.matches("[a-zA-Z]+") || name.isEmpty()){
+                    while (!name.matches("[a-zA-Z]+") || name.isEmpty()) {
                         System.out.println("Введите правильное имя");
                         name = scanner.nextLine();
                     }
 
-                    TypedQuery<City> cityTypedQuery =manager.createQuery(
+                    TypedQuery<City> cityTypedQuery = manager.createQuery(
                             "select c from City c", City.class
                     );
 
                     System.out.println("Доступные города");
-                    for (int i = 0; i < cityTypedQuery.getResultList().size(); i++){
+                    for (int i = 0; i < cityTypedQuery.getResultList().size(); i++) {
                         System.out.println(i + 1 + ". " + cityTypedQuery.getResultList().get(i).getName());
                     }
                     boolean city = false;
@@ -67,9 +67,9 @@ public class CreateUser {
                         System.out.println("Выберите номер города");
                         int cityNumber;
 
-                        try{
+                        try {
                             cityNumber = Integer.parseInt(scanner.nextLine());
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("Введите правильный номер города");
                             continue;
                         }

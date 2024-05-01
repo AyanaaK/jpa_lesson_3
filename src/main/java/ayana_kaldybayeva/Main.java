@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         boolean run = true;
 
-        while(run){
+        while (run) {
             System.out.println("Что вы хотите сделать? Выберите номер");
             System.out.println("1. Создать пользователя");
             System.out.println("2. Найти пользователя");
@@ -18,8 +18,8 @@ public class Main {
             int actionToDo;
 
             try {
-               actionToDo = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e){
+                actionToDo = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
                 System.out.println("Введите правильный номер");
                 continue;
             }

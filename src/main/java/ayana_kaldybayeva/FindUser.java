@@ -27,29 +27,29 @@ public class FindUser {
             typedQuery.setParameter(1, login);
             User user = typedQuery.getSingleResult();
 
-            if (user != null){
+            if (user != null) {
                 System.out.println("Имя пользователя: " + user.getName());
                 System.out.println("Город пользователя: " + user.getCity().getName());
 
                 System.out.println("Желаете поменять данные? да/нет");
                 String answer = scanner.nextLine();
 
-                if (answer.equalsIgnoreCase("да")){
+                if (answer.equalsIgnoreCase("да")) {
                     manager.getTransaction().begin();
 
                     System.out.println("Введите новое имя:");
                     String newName = scanner.nextLine();
 
-                    while (!newName.matches("[a-zA-Z]+") || newName.isEmpty()){
+                    while (!newName.matches("[a-zA-Z]+") || newName.isEmpty()) {
                         System.out.println("Введите правильное имя");
                         newName = scanner.nextLine();
                     }
 
                     System.out.println("Выберите новый город:");
-                    TypedQuery<City> cityTypedQuery2 =manager.createQuery(
+                    TypedQuery<City> cityTypedQuery2 = manager.createQuery(
                             "select c from City c ", City.class
                     );
-                    for (int i = 0; i < cityTypedQuery2.getResultList().size(); i++){
+                    for (int i = 0; i < cityTypedQuery2.getResultList().size(); i++) {
                         System.out.println(i + 1 + ". " + cityTypedQuery2.getResultList().get(i).getName());
                     }
 
@@ -60,9 +60,9 @@ public class FindUser {
                         System.out.println("Выберите номер города");
                         int cityNumber;
 
-                        try{
+                        try {
                             cityNumber = Integer.parseInt(scanner.nextLine());
-                        } catch (NumberFormatException e){
+                        } catch (NumberFormatException e) {
                             System.out.println("Введите правильный номер города");
                             continue;
                         }
@@ -83,7 +83,7 @@ public class FindUser {
             } else {
                 System.out.println("Пользователь не найден");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Пользователь не найден");
         }
 
